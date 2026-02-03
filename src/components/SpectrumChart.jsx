@@ -51,6 +51,27 @@ function drawChart(canvas, results, activeIndex, isDark, width) {
   magGradient.addColorStop(0, isDark ? '#38bdf8' : '#0ea5e9');
   magGradient.addColorStop(1, isDark ? '#0ea5e9' : '#0284c7');
 
+  // Polyfill for roundRect if not available
+  const roundRect = (ctx, x, y, width, height, radii) => {
+    if (typeof ctx.roundRect === 'function') {
+      ctx.roundRect(x, y, width, height, radii);
+    } else {
+      // Fallback for older browsers
+      const radius = Array.isArray(radii) ? radii[0] : (radii || 0);
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+    }
+  };
+
   results.forEach((r, i) => {
     const x = (chartWidth / results.length) * i + (chartWidth / results.length - barWidth) / 2;
     const h = (r.magnitude / maxMag) * (chartHeight - 8);
@@ -58,7 +79,7 @@ function drawChart(canvas, results, activeIndex, isDark, width) {
     ctx.fillStyle = r.index === activeIndex ? '#22d3ee' : magGradient;
     ctx.globalAlpha = r.index === activeIndex ? 1 : 0.85;
     ctx.beginPath();
-    ctx.roundRect(x, y, barWidth, h, [3, 3, 0, 0]);
+    roundRect(ctx, x, y, barWidth, h, [3, 3, 0, 0]);
     ctx.fill();
   });
   ctx.restore();
@@ -78,7 +99,7 @@ function drawChart(canvas, results, activeIndex, isDark, width) {
     ctx.fillStyle = r.index === activeIndex ? '#d8b4fe' : phaseGradient;
     ctx.globalAlpha = r.index === activeIndex ? 1 : 0.8;
     ctx.beginPath();
-    ctx.roundRect(x, Math.min(y, chartHeight), barWidth, Math.abs(h), [0, 0, 3, 3]);
+    roundRect(ctx, x, Math.min(y, chartHeight), barWidth, Math.abs(h), [0, 0, 3, 3]);
     ctx.fill();
   });
   ctx.restore();
