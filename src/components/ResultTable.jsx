@@ -1,157 +1,99 @@
 import React from 'react';
-import { Card } from './ui/Card';
 
-export default function ResultTable({ results, activeIndex, setActiveIndex, operation }) {
-  const isTwiddle = operation === 'twiddle';
-  const isDFT = operation === 'dft';
+function Row({ row, isActive, onClick, operation }) {
+  return (
+    <div
+      className={`table-row-item ${isActive ? 'row-active' : ''}`}
+      onClick={() => onClick(row.index)}
+    >
+      <span className="relative flex items-center gap-2">
+        <span className="inline-flex sm:hidden w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 text-[0.65rem] font-bold text-center items-center justify-center text-slate-600 dark:text-slate-300">
+          {row.index}
+        </span>
+        <span className="hidden sm:inline font-mono text-sm">{row.index}</span>
+        <span className="index-badge-small">{row.index}</span>
+      </span>
+      <span className="relative">
+        <span className="sm:hidden flex items-center gap-1 font-mono text-xs text-slate-800 dark:text-slate-100">
+          {row.re.toFixed(3)} {row.im >= 0 ? '+' : '-'} {Math.abs(row.im).toFixed(3)}j
+        </span>
+        <span className="hidden sm:flex items-center gap-1.5 font-mono text-sm">
+          <span className="text-slate-800 dark:text-slate-100">{row.re.toFixed(4)}</span>
+          <span className={row.im >= 0 ? 'text-emerald-500' : 'text-rose-500'}>
+            {row.im >= 0 ? '+' : '-'} {Math.abs(row.im).toFixed(4)}j
+          </span>
+        </span>
+      </span>
+      <div className="flex justify-end items-center gap-2">
+        <span className={`index-badge ${isActive ? 'badge-active-sky' : 'badge-inactive-sky'} sm:hidden`}>
+          {isActive ? '●' : '○'}
+        </span>
+        <span className="hidden sm:inline font-mono font-medium text-emerald-600 dark:text-emerald-400">
+          {row.magnitude.toFixed(3)}
+        </span>
+      </div>
+    </div>
+  );
+}
 
-  if (results.length === 0) {
+export default function ResultTable({ results, operation, activeIndex, setActiveIndex }) {
+  if (!results?.length) {
     return (
-      <Card>
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <h2 className="text-sm sm:text-base font-semibold text-slate-900 dark:text-slate-100">
-              {isTwiddle ? 'Calculated Values' : 'Results'}
-            </h2>
-            <p className="text-[0.7rem] text-slate-500 dark:text-slate-400">
-              {isTwiddle ? 'Twiddle factor calculations' : `Computed ${operation.toUpperCase()} output values`}
-            </p>
-          </div>
-        </div>
-        <div className="rounded-xl border border-dashed border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/30 p-6 sm:p-8 text-center">
-          <svg className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-slate-300 dark:text-slate-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="result-card p-4 sm:p-6">
+        <div className="empty-state">
+          <svg className="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            {isTwiddle ? 'Enter values and click Calculate' : 'Enter a sequence and click Calculate'}
-          </p>
+          <p className="empty-text">Enter a sequence to see results</p>
         </div>
-      </Card>
+      </div>
     );
   }
 
-  const columnHeaders = isTwiddle ? (
-    <>
-      <th className="px-3 py-2.5 text-left font-semibold text-slate-600 dark:text-slate-300">
-        W<sub>N</sub><sup>kn</sup>
-      </th>
-      <th className="px-3 py-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">
-        Real
-      </th>
-      <th className="px-3 py-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">
-        Imaginary
-      </th>
-      <th className="px-3 py-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">
-        Angle (°)
-      </th>
-    </>
-  ) : (
-    <>
-      <th className="px-3 py-2.5 text-left font-semibold text-slate-600 dark:text-slate-300">
-        {isDFT ? 'k (freq)' : 'n (time)'}
-      </th>
-      <th className="px-3 py-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">
-        Real
-      </th>
-      <th className="px-3 py-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">
-        Imaginary
-      </th>
-      <th className="px-3 py-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">
-        |Value|
-      </th>
-      <th className="px-3 py-2.5 text-right font-semibold text-slate-600 dark:text-slate-300">
-        Phase (°)
-      </th>
-    </>
-  );
+  const titleMap = {
+    dft: 'DFT Results',
+    fft: 'FFT Results',
+    idft: 'IDFT Results',
+    circularConv: 'Convolution Results',
+    twiddle: 'Twiddle Factors',
+  };
 
   return (
-    <Card>
-      <div className="flex items-center justify-between mb-3 gap-2">
+    <div className="result-card p-3 sm:p-4">
+      <div className="result-header">
         <div>
-          <h2 className="text-sm sm:text-base font-semibold text-slate-900 dark:text-slate-100">
-            {isTwiddle ? 'Calculated Values' : 'Results'}
-          </h2>
-          <p className="text-[0.7rem] text-slate-500 dark:text-slate-400">
-            {isTwiddle ? 'Twiddle factor calculations' : `Computed ${operation.toUpperCase()} output values`}
-          </p>
+          <h2 className="result-title">{titleMap[operation] || 'Results'}</h2>
+          <p className="result-subtitle">{results.length} {results.length === 1 ? 'value' : 'values'}</p>
         </div>
-        <span className="flex items-center gap-1.5 rounded-full bg-slate-100 dark:bg-slate-800 px-2.5 py-1 text-[0.7rem] font-medium text-slate-600 dark:text-slate-300">
-          <svg className="h-3.5 w-3.5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="result-badge">
+          <svg className="badge-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
-          {results.length} {results.length === 1 ? 'value' : 'values'}
-        </span>
-      </div>
-
-      <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-950/60">
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-xs">
-            <thead className="bg-slate-100/80 dark:bg-slate-800/80">
-              <tr>{columnHeaders}</tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/50">
-              {results.map((row) => {
-                const isActive = row.index === activeIndex;
-                const badgeColor = isTwiddle 
-                  ? isActive ? 'bg-emerald-500 text-white' : 'bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300'
-                  : isActive ? 'bg-sky-500 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300';
-
-                return (
-                  <tr
-                    key={row.index}
-                    onClick={() => setActiveIndex(row.index)}
-                    className={`cursor-pointer transition-all duration-150 ${
-                      isActive
-                        ? 'bg-sky-50 dark:bg-sky-500/10'
-                        : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
-                    }`}
-                  >
-                    <td className="px-3 py-2.5">
-                      {isTwiddle ? (
-                        <div className="flex items-center gap-1">
-                          <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${badgeColor}`}>
-                            {row.index + 1}
-                          </span>
-                          <span className="font-mono text-xs text-slate-600 dark:text-slate-400">
-                            W<sub>{row.N}</sub><sup>{row.k}·{row.n}</sup>
-                          </span>
-                        </div>
-                      ) : (
-                        <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${badgeColor}`}>
-                          {row.index}
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-3 py-2.5 text-right font-mono text-slate-700 dark:text-slate-200">
-                      {row.re?.toFixed(4) ?? '0.0000'}
-                    </td>
-                    <td className="px-3 py-2.5 text-right font-mono text-slate-700 dark:text-slate-200">
-                      {row.im < 0 ? '' : '+'}{row.im?.toFixed(4) ?? '0.0000'}
-                    </td>
-                    {isTwiddle ? (
-                      <td className="px-3 py-2.5 text-right font-mono text-slate-500 dark:text-slate-400">
-                        {row.phase?.toFixed(2) ?? '0.00'}°
-                      </td>
-                    ) : (
-                      <>
-                        <td className="px-3 py-2.5 text-right">
-                          <span className="font-mono font-medium text-emerald-600 dark:text-emerald-400">
-                            {row.magnitude?.toFixed(4) ?? '0.0000'}
-                          </span>
-                        </td>
-                        <td className="px-3 py-2.5 text-right font-mono text-slate-500 dark:text-slate-400">
-                          {row.phase?.toFixed(2) ?? '0.00'}°
-                        </td>
-                      </>
-                    )}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <span className="hidden sm:inline">Magnitude</span>
+          <span className="sm:hidden">|X|</span>
         </div>
       </div>
-    </Card>
+
+      <div className="table-container">
+        <div className="result-table">
+          <div className="hidden sm:grid table-header-row">
+            <span>Index</span>
+            <span>Complex Value (Re + jIm)</span>
+            <span className="text-right">Magnitude</span>
+          </div>
+          <div className="table-body">
+            {results.map((row) => (
+              <Row
+                key={row.index}
+                row={row}
+                isActive={activeIndex === row.index}
+                onClick={setActiveIndex}
+                operation={operation}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

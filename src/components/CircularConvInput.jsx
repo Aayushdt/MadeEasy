@@ -69,17 +69,16 @@ export default function CircularConvInput({ sequence1, sequence2, setSequence2, 
   }, [setN]);
 
   return (
-    <Card>
+    <Card className="calculate-card">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         <div>
-          <h2 className="text-base font-semibold text-slate-900 dark:text-slate-100">
-            Second Sequence (h[n])
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Define the second sequence for convolution
-          </p>
+          <h2 className="header-title">Second Sequence (h[n])</h2>
+          <p className="header-subtitle">Define the second sequence for convolution</p>
         </div>
         <Button variant="sky" size="sm" onClick={loadSample}>
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
           Load Sample
         </Button>
       </div>
@@ -96,7 +95,7 @@ export default function CircularConvInput({ sequence1, sequence2, setSequence2, 
             value={N || ''}
             onChange={handleNChange}
             placeholder={String(Math.max(sequence1.length, sequence2.length))}
-            className="w-14 sm:w-16 rounded-md bg-white dark:bg-slate-700 px-2 py-1 text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-rose-500"
+            className="indicator-input"
           />
         </div>
         <div className="flex items-center gap-1.5 rounded-lg bg-rose-50 dark:bg-rose-900/30 px-2.5 py-1">

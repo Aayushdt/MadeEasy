@@ -151,16 +151,16 @@ export default function InputForm({ sequence, setSequence, N, setN, onError }) {
       {/* Manual Entry */}
       {activeTab === 'manual' && (
         <div className="sequence-table">
-          <div className="table-header">
-            <span className="col-real">Real Part (Re)</span>
-            <span className="col-imag">Imaginary (Im)</span>
-            <span className="col-action">Action</span>
+          <div className="hidden sm:grid grid-cols-[1fr_1fr_60px] gap-2 px-3 py-2 bg-slate-100 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700/60">
+            <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">Real Part (Re)</span>
+            <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">Imaginary (Im)</span>
+            <span className="text-xs font-semibold text-slate-600 dark:text-slate-400 text-right">Action</span>
           </div>
 
           <div className="table-body">
             {sequence.map((pt, index) => (
-              <div key={index} className="table-row">
-                <div className="col-real">
+              <div key={index} className="table-row-item">
+                <div className="relative">
                   <input
                     type="number"
                     value={pt.re}
@@ -168,18 +168,16 @@ export default function InputForm({ sequence, setSequence, N, setN, onError }) {
                     className="number-input"
                     placeholder="0"
                   />
-                  <span className="index-badge">{index}</span>
+                  <span className="index-badge-small">{index}</span>
                 </div>
-                <div className="col-imag">
-                  <input
-                    type="number"
-                    value={pt.im}
-                    onChange={(e) => updatePoint(index, 'im', e.target.value)}
-                    className="number-input"
-                    placeholder="0"
-                  />
-                </div>
-                <div className="col-action">
+                <input
+                  type="number"
+                  value={pt.im}
+                  onChange={(e) => updatePoint(index, 'im', e.target.value)}
+                  className="number-input"
+                  placeholder="0"
+                />
+                <div className="flex justify-center">
                   <button
                     type="button"
                     onClick={() => removePoint(index)}

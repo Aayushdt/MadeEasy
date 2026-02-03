@@ -180,7 +180,7 @@ export default function App() {
         </Card>
 
         {/* Operation Description */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3 rounded-lg bg-slate-100 dark:bg-slate-800/50 px-3 py-2">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 rounded-lg bg-slate-100 dark:bg-slate-800/50 px-3 py-2.5">
           <span className="text-lg sm:text-xl">{opConfig.icon}</span>
           <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
             <span className="text-sm sm:text-base font-semibold text-slate-800 dark:text-slate-200">
@@ -194,7 +194,7 @@ export default function App() {
 
         {/* Circular Convolution Mode */}
         {needsTwoSequences ? (
-          <div className="grid gap-4 sm:grid-cols-[1fr] lg:grid-cols-[1fr_1fr] items-start">
+          <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2 items-start">
             <div className="space-y-4">
               <InputForm
                 sequence={sequence}
@@ -228,13 +228,13 @@ export default function App() {
                       <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                       </svg>
-                      Reset
+                      <span className="hidden sm:inline">Reset</span>
                     </Button>
                     <Button variant="primary" size="sm" onClick={handleCalculate}>
                       <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                       </svg>
-                      Calculate
+                      <span className="hidden sm:inline">Calculate</span>
                     </Button>
                   </div>
                 </div>
@@ -244,7 +244,7 @@ export default function App() {
           </div>
         ) : operation === 'twiddle' ? (
           /* Twiddle Factor Mode */
-          <div className="grid gap-4 sm:grid-cols-[1fr] lg:grid-cols-[1fr_1fr] items-start">
+          <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2 items-start">
             <TwiddleFactorInput
               N={N}
               setN={setN}
@@ -256,7 +256,7 @@ export default function App() {
           </div>
         ) : (
           /* DFT/IDFT/FFT Mode */
-          <div className="grid gap-4 sm:grid-cols-[1fr] lg:grid-cols-[1.4fr_1fr] xl:grid-cols-[1.5fr_1fr] items-start">
+          <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-[1.4fr_1fr] xl:grid-cols-[1.5fr_1fr] items-start">
             <div className="space-y-4">
               <InputForm
                 sequence={sequence}
@@ -287,13 +287,13 @@ export default function App() {
                       <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                       </svg>
-                      Reset
+                      <span className="hidden sm:inline">Reset</span>
                     </Button>
                     <Button variant="primary" size="sm" onClick={handleCalculate}>
                       <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                       </svg>
-                      Calculate
+                      <span className="hidden sm:inline">Calculate</span>
                     </Button>
                   </div>
                 </div>
@@ -313,7 +313,7 @@ export default function App() {
 
         {/* Results Section */}
         {results.length > 0 && (
-          <div className="grid gap-4 sm:grid-cols-[1fr] lg:grid-cols-[1.3fr_1.1fr] xl:grid-cols-[1.4fr_1fr] items-start">
+          <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-[1.3fr_1.1fr] xl:grid-cols-[1.4fr_1fr] items-start">
             <ResultTable
               results={results}
               activeIndex={activeIndex}

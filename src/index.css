@@ -3,12 +3,10 @@
 @tailwind utilities;
 
 @layer utilities {
-  /* Smooth scrolling */
   html {
     scroll-behavior: smooth;
   }
 
-  /* Glass panel effect */
   .glass-panel {
     @apply bg-slate-900/70 backdrop-blur border border-slate-700/60 shadow-soft-xl rounded-2xl;
   }
@@ -17,7 +15,6 @@
     @apply bg-white/80 border-slate-200 shadow-xl;
   }
 
-  /* Chart tooltip */
   .chart-tooltip {
     @apply pointer-events-none fixed z-50 rounded-lg px-3 py-2 text-xs font-medium shadow-lg ring-1;
   }
@@ -31,21 +28,12 @@
   }
 }
 
-/* Mobile-first responsive */
 @media (max-width: 640px) {
   .glass-panel {
     @apply rounded-xl;
   }
-
-  .glass-panel {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-  }
 }
 
-/* Touch optimization */
 @media (hover: none) and (pointer: coarse) {
   button,
   input[type="number"],
@@ -53,21 +41,15 @@
   textarea {
     min-height: 44px;
   }
-
-  .glass-panel {
-    @apply touch-manipulation;
-  }
 }
 
-/* Smooth transitions */
 * {
   @apply transition-colors duration-150;
 }
 
-/* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -82,12 +64,10 @@
   @apply bg-slate-400 dark:bg-slate-500;
 }
 
-/* Focus states for accessibility */
 :focus-visible {
   @apply outline-none ring-2 ring-sky-500 ring-offset-2 ring-offset-white dark:ring-offset-slate-900;
 }
 
-/* Prevent iOS zoom */
 @media screen and (max-width: 768px) {
   input[type="number"],
   input[type="text"],
@@ -96,23 +76,113 @@
   }
 }
 
-/* Animation utilities */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ====== Result Table Mobile Styles ====== */
+.result-card {
+  @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60 rounded-2xl shadow-xl;
 }
 
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(-20px); }
-  to { opacity: 1; transform: translateX(0); }
+.light .result-card {
+  @apply bg-white border-slate-200 shadow-lg;
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
+.result-header {
+  @apply flex items-center justify-between mb-3 gap-2 flex-wrap;
 }
 
-.animate-slide-in {
-  animation: slideIn 0.3s ease-out;
+.result-title {
+  @apply text-sm sm:text-base font-semibold text-slate-900 dark:text-slate-100;
+}
+
+.result-subtitle {
+  @apply text-[0.7rem] text-slate-500 dark:text-slate-400;
+}
+
+.result-badge {
+  @apply inline-flex items-center gap-1.5 rounded-full bg-slate-100 dark:bg-slate-800 px-2.5 py-1 text-[0.7rem] font-medium text-slate-600 dark:text-slate-300;
+}
+
+.badge-icon {
+  @apply h-3.5 w-3.5 text-sky-500;
+}
+
+.table-container {
+  @apply overflow-x-auto -mx-4 px-4;
+}
+
+.result-table {
+  @apply min-w-full text-xs sm:text-sm;
+}
+
+.table-header {
+  @apply bg-slate-100/80 dark:bg-slate-800/80;
+}
+
+.th-cell {
+  @apply px-2 py-2 text-left font-semibold text-slate-600 dark:text-slate-400 whitespace-nowrap;
+}
+
+.table-body {
+  @apply divide-y divide-slate-100 dark:divide-slate-800/50;
+}
+
+.table-row {
+  @apply cursor-pointer transition-all duration-150;
+}
+
+.table-row:hover {
+  @apply bg-slate-50 dark:bg-slate-800/50;
+}
+
+.row-active {
+  @apply bg-sky-50 dark:bg-sky-500/10;
+}
+
+.td-cell {
+  @apply px-2 py-2 whitespace-nowrap;
+}
+
+.index-badge {
+  @apply inline-flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full text-[0.65rem] sm:text-xs font-bold;
+}
+
+.badge-active-sky {
+  @apply bg-sky-500 text-white;
+}
+
+.badge-inactive-sky {
+  @apply bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300;
+}
+
+.badge-active-emerald {
+  @apply bg-emerald-500 text-white;
+}
+
+.badge-inactive-emerald {
+  @apply bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300;
+}
+
+.twiddle-cell {
+  @apply flex items-center gap-1;
+}
+
+.twiddle-formula {
+  @apply hidden sm:inline font-mono text-xs text-slate-600 dark:text-slate-400;
+}
+
+.magnitude-value {
+  @apply font-mono font-medium text-emerald-600 dark:text-emerald-400;
+}
+
+.empty-state {
+  @apply rounded-xl border border-dashed border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/30 p-6 sm:p-8 text-center;
+}
+
+.empty-icon {
+  @apply mx-auto h-8 w-8 sm:h-10 sm:w-10 text-slate-300 dark:text-slate-600 mb-2;
+}
+
+.empty-text {
+  @apply text-xs sm:text-sm text-slate-500 dark:text-slate-400;
 }
 
 /* ====== Calculate Card Styles ====== */
@@ -125,31 +195,31 @@
 }
 
 .card-header {
-  @apply flex items-center gap-4 pb-4 border-b border-slate-200/60 dark:border-slate-700/60;
+  @apply flex items-center gap-3 pb-3 border-b border-slate-200/60 dark:border-slate-700/60 flex-wrap;
 }
 
 .header-icon {
-  @apply flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-sky-400 to-cyan-500 text-white shadow-lg shadow-sky-500/30;
+  @apply flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-sky-400 to-cyan-500 text-white shadow-lg shrink-0;
 }
 
 .header-content {
-  @apply flex-1;
+  @apply flex-1 min-w-[120px];
 }
 
 .header-title {
-  @apply text-lg font-bold text-slate-900 dark:text-white;
+  @apply text-base sm:text-lg font-bold text-slate-900 dark:text-white;
 }
 
 .header-subtitle {
-  @apply text-sm text-slate-500 dark:text-slate-400;
+  @apply text-xs sm:text-sm text-slate-500 dark:text-slate-400;
 }
 
 .transform-indicator {
-  @apply flex flex-wrap items-center gap-4 mt-4 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50;
+  @apply flex flex-wrap items-center gap-3 mt-3 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50;
 }
 
 .indicator-item {
-  @apply flex items-center gap-2;
+  @apply flex items-center gap-1.5;
 }
 
 .indicator-label {
@@ -157,15 +227,15 @@
 }
 
 .indicator-input {
-  @apply w-16 px-3 py-1.5 text-sm font-semibold rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500;
+  @apply w-14 sm:w-16 px-2 py-1.5 text-xs sm:text-sm font-semibold rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500;
 }
 
 .indicator-item.highlight {
-  @apply px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-900/30;
+  @apply px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-900/30;
 }
 
 .pulse-dot {
-  @apply w-2 h-2 rounded-full bg-emerald-500 animate-pulse;
+  @apply w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse;
 }
 
 .indicator-text {
@@ -173,11 +243,11 @@
 }
 
 .input-tabs {
-  @apply flex gap-1 mt-4 p-1 rounded-lg bg-slate-100 dark:bg-slate-800/50;
+  @apply flex gap-1 mt-3 p-1 rounded-lg bg-slate-100 dark:bg-slate-800/50;
 }
 
 .tab-button {
-  @apply flex items-center justify-center gap-1.5 flex-1 px-3 py-2 text-xs sm:text-sm font-medium rounded-md transition-all duration-200;
+  @apply flex items-center justify-center gap-1.5 flex-1 px-2 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all duration-200;
   @apply text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100;
   @apply hover:bg-white dark:hover:bg-slate-700;
 }
@@ -187,73 +257,81 @@
 }
 
 .sequence-table {
-  @apply mt-4 rounded-xl border border-slate-200/60 dark:border-slate-700/60 overflow-hidden;
+  @apply mt-3 rounded-xl border border-slate-200/60 dark:border-slate-700/60 overflow-hidden;
 }
 
-.table-header {
-  @apply hidden sm:grid grid-cols-[1fr_1fr_60px] gap-2 px-4 py-2.5 bg-slate-100 dark:bg-slate-800/50 border-b border-slate-200/60 dark:border-slate-700/60;
+.table-header-row {
+  @apply hidden sm:grid grid-cols-[1fr_1fr_60px] gap-2 px-3 py-2 bg-slate-100 dark:bg-slate-800/50 border-b border-slate-200/60 dark:border-slate-700/60;
 }
 
-.table-header span {
+.table-header-row span {
   @apply text-xs font-semibold text-slate-600 dark:text-slate-400;
 }
 
-.table-body {
+.table-body-row {
   @apply divide-y divide-slate-100 dark:divide-slate-800/50;
 }
 
-.table-row {
-  @apply grid grid-cols-[1fr_1fr_50px] sm:grid-cols-[1fr_1fr_60px] gap-2 px-3 sm:px-4 py-2 items-center;
+.table-row-item {
+  @apply grid grid-cols-[1fr_1fr_45px] sm:grid-cols-[1fr_1fr_60px] gap-2 px-3 py-2 items-center;
   @apply hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors duration-150;
 }
 
-.col-real, .col-imag {
+.col-relative {
   @apply relative;
-}
-
-.number-input {
-  @apply w-full px-3 py-2 text-sm font-mono rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500;
-}
-
-.index-badge {
-  @apply absolute right-2 top-1/2 -translate-y-1/2 hidden sm:inline-block px-1.5 py-0.5 text-[0.6rem] font-mono font-medium text-slate-400 bg-slate-100 dark:bg-slate-700 rounded;
 }
 
 .col-action {
   @apply flex justify-center;
 }
 
+.number-input {
+  @apply w-full px-2 py-1.5 text-xs sm:text-sm font-mono rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500;
+}
+
+.index-badge-small {
+  @apply absolute right-1.5 top-1/2 -translate-y-1/2 hidden sm:inline-block px-1 py-0.5 text-[0.55rem] font-mono font-medium text-slate-400 bg-slate-100 dark:bg-slate-700 rounded;
+}
+
 .remove-button {
-  @apply p-2 rounded-lg text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors duration-150;
+  @apply p-1.5 rounded-lg text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors duration-150;
+}
+
+.remove-button svg {
+  @apply w-4 h-4;
 }
 
 .add-button {
-  @apply flex items-center justify-center gap-2 w-full py-3 mt-2 text-sm font-medium rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-sky-500 hover:text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/10 transition-all duration-200;
+  @apply flex items-center justify-center gap-1.5 w-full py-2 text-xs sm:text-sm font-medium rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-sky-500 hover:text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/10 transition-all duration-200;
+}
+
+.add-button svg {
+  @apply w-4 h-4;
 }
 
 /* ====== Paste Section ====== */
 .paste-section {
-  @apply mt-4 space-y-3;
+  @apply mt-3 space-y-2;
 }
 
 .paste-textarea {
-  @apply w-full p-4 text-sm font-mono rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white/50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 resize-none;
+  @apply w-full p-3 text-xs sm:text-sm font-mono rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white/50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 resize-none;
 }
 
 .format-examples {
-  @apply p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50;
+  @apply p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/50;
 }
 
 .examples-title {
-  @apply text-xs font-semibold text-slate-600 dark:text-slate-300 mb-2;
+  @apply text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5;
 }
 
 .examples-list {
-  @apply flex flex-wrap gap-2;
+  @apply flex flex-wrap gap-1.5;
 }
 
 .example-button {
-  @apply px-2.5 py-1 text-xs font-mono rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors duration-150;
+  @apply px-2 py-0.5 text-[0.7rem] sm:text-xs font-mono rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors duration-150;
 }
 
 .action-buttons {
@@ -261,7 +339,60 @@
 }
 
 .error-message {
-  @apply flex items-center gap-2 px-3 py-2 text-xs rounded-lg bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-300;
+  @apply flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-lg bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-300;
+}
+
+.error-message svg {
+  @apply w-3.5 h-3.5 shrink-0;
+}
+
+/* ====== Spectrum Chart Styles ====== */
+.chart-card {
+  @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60 rounded-2xl shadow-xl;
+}
+
+.light .chart-card {
+  @apply bg-white border-slate-200 shadow-lg;
+}
+
+.chart-header {
+  @apply flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2;
+}
+
+.chart-title {
+  @apply text-sm sm:text-base font-semibold text-slate-900 dark:text-slate-100;
+}
+
+.chart-subtitle {
+  @apply text-[0.7rem] text-slate-500 dark:text-slate-400;
+}
+
+.chart-legend {
+  @apply flex items-center gap-2;
+}
+
+.legend-item {
+  @apply flex items-center gap-1 rounded-lg px-2 py-0.5;
+}
+
+.legend-dot {
+  @apply h-2 w-2 rounded-full;
+}
+
+.legend-text {
+  @apply text-[0.65rem] font-medium;
+}
+
+.chart-wrapper {
+  @apply relative;
+}
+
+.chart-canvas {
+  @apply w-full h-40 sm:h-48 lg:h-56 rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white dark:bg-slate-950/80 cursor-crosshair;
+}
+
+.chart-caption {
+  @apply mt-1.5 text-[0.65rem] sm:text-xs text-slate-500 dark:text-slate-400 text-center;
 }
 
 /* ====== Explanation Panel Styles ====== */
@@ -277,8 +408,177 @@
   @apply flex items-center justify-between cursor-pointer;
 }
 
+.explanation-icon {
+  @apply flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-lg;
+}
+
+.explanation-icon.dft {
+  @apply bg-sky-100 dark:bg-sky-900/30;
+}
+
+.explanation-icon.idft {
+  @apply bg-purple-100 dark:bg-purple-900/30;
+}
+
+.explanation-icon.fft {
+  @apply bg-amber-100 dark:bg-amber-900/30;
+}
+
+.explanation-icon.twiddle {
+  @apply bg-emerald-100 dark:bg-emerald-900/30;
+}
+
+.explanation-icon.conv {
+  @apply bg-rose-100 dark:bg-rose-900/30;
+}
+
+.explanation-title {
+  @apply text-sm sm:text-base font-bold text-slate-900 dark:text-white;
+}
+
+.explanation-subtitle {
+  @apply text-[0.7rem] text-slate-500 dark:text-slate-400;
+}
+
+.toggle-btn {
+  @apply flex items-center gap-1 text-[0.7rem] font-medium transition-colors duration-150;
+}
+
+.toggle-btn.dft {
+  @apply text-sky-500 dark:text-sky-400;
+}
+
+.toggle-btn.idft {
+  @apply text-purple-500 dark:text-purple-400;
+}
+
+.toggle-btn.fft {
+  @apply text-amber-500 dark:text-amber-400;
+}
+
+.toggle-btn.twiddle {
+  @apply text-emerald-500 dark:text-emerald-400;
+}
+
+.toggle-btn.conv {
+  @apply text-rose-500 dark:text-rose-400;
+}
+
+.explanation-content {
+  @apply mt-3 space-y-3 text-xs sm:text-sm;
+}
+
+.formula-box {
+  @apply p-3 rounded-xl border;
+}
+
+.formula-box.dft {
+  @apply bg-gradient-to-br from-sky-50 to-cyan-50 dark:from-slate-800/50 dark:to-slate-900/50 border-sky-200 dark:border-slate-700;
+}
+
+.formula-box.idft {
+  @apply bg-gradient-to-br from-purple-50 to-violet-50 dark:from-slate-800/50 dark:to-slate-900/50 border-purple-200 dark:border-slate-700;
+}
+
+.formula-box.fft {
+  @apply bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-slate-800/50 dark:to-slate-900/50 border-amber-200 dark:border-slate-700;
+}
+
+.formula-box.twiddle {
+  @apply bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-800/50 dark:to-slate-900/50 border-emerald-200 dark:border-slate-700;
+}
+
+.formula-box.conv {
+  @apply bg-gradient-to-br from-rose-50 to-pink-50 dark:from-slate-800/50 dark:to-slate-900/50 border-rose-200 dark:border-slate-700;
+}
+
+.formula-text {
+  @apply font-mono text-xs sm:text-sm leading-relaxed text-center bg-white/60 dark:bg-slate-950/60 rounded-lg px-3 py-2 text-slate-800 dark:text-slate-100;
+}
+
+.formula-note {
+  @apply mt-1.5 text-[0.65rem] sm:text-xs text-center text-slate-500 dark:text-slate-400;
+}
+
+.section-heading {
+  @apply flex items-center gap-1.5 font-semibold text-xs sm:text-sm;
+}
+
+.section-heading.dft {
+  @apply text-sky-600 dark:text-sky-400;
+}
+
+.section-heading.idft {
+  @apply text-purple-600 dark:text-purple-400;
+}
+
+.section-heading.fft {
+  @apply text-amber-600 dark:text-amber-400;
+}
+
+.section-heading.twiddle {
+  @apply text-emerald-600 dark:text-emerald-400;
+}
+
+.section-heading.conv {
+  @apply text-rose-600 dark:text-rose-400;
+}
+
+.section-list {
+  @apply space-y-1.5 pl-4 mt-1.5;
+}
+
+.section-list li {
+  @apply text-slate-600 dark:text-slate-400;
+}
+
+.section-list li strong {
+  @apply text-slate-800 dark:text-slate-200;
+}
+
+.step-list {
+  @apply space-y-2 pl-4 mt-1.5;
+}
+
+.step-item {
+  @apply flex items-start gap-2;
+}
+
+.step-num {
+  @apply flex items-center justify-center w-5 h-5 rounded-full text-[0.6rem] font-bold bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 shrink-0;
+}
+
+.step-text {
+  @apply text-slate-600 dark:text-slate-400 pt-0.5;
+}
+
+.step-text strong {
+  @apply text-slate-800 dark:text-slate-200;
+}
+
+.highlight {
+  @apply text-sky-500 dark:text-sky-400;
+}
+
+.highlight-purple {
+  @apply text-purple-500 dark:text-purple-400;
+}
+
+.info-box {
+  @apply p-2.5 rounded-lg bg-slate-100 dark:bg-slate-800/50;
+}
+
+.info-box-title {
+  @apply text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1;
+}
+
+.info-box-text {
+  @apply text-[0.65rem] sm:text-xs text-slate-500 dark:text-slate-400;
+}
+
+/* ====== Explanation Panel Additional Styles ====== */
 .explanation-header-icon {
-  @apply flex items-center justify-center w-10 h-10 rounded-lg;
+  @apply flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-lg;
 }
 
 .explanation-header-icon.dft {
@@ -301,20 +601,32 @@
   @apply bg-rose-100 dark:bg-rose-900/30;
 }
 
-.explanation-title {
-  @apply text-base font-bold text-slate-900 dark:text-white;
+.toggle-hide {
+  @apply text-[0.7rem] font-medium transition-colors duration-150;
 }
 
-.explanation-subtitle {
-  @apply text-xs text-slate-500 dark:text-slate-400;
+.toggle-hide.dft {
+  @apply text-sky-500 dark:text-sky-400;
 }
 
-.explanation-content {
-  @apply mt-4 space-y-4 text-sm;
+.toggle-hide.idft {
+  @apply text-purple-500 dark:text-purple-400;
+}
+
+.toggle-hide.fft {
+  @apply text-amber-500 dark:text-amber-400;
+}
+
+.toggle-hide.twiddle {
+  @apply text-emerald-500 dark:text-emerald-400;
+}
+
+.toggle-hide.conv {
+  @apply text-rose-500 dark:text-rose-400;
 }
 
 .formula-card {
-  @apply p-4 rounded-xl border;
+  @apply p-3 rounded-xl border;
 }
 
 .formula-card.dft {
@@ -337,16 +649,12 @@
   @apply bg-gradient-to-br from-rose-50 to-pink-50 dark:from-slate-800/50 dark:to-slate-900/50 border-rose-200 dark:border-slate-700;
 }
 
-.formula-text {
-  @apply font-mono text-sm leading-relaxed text-center bg-white/60 dark:bg-slate-950/60 rounded-lg px-4 py-2 text-slate-800 dark:text-slate-100;
-}
-
 .formula-subtitle {
-  @apply mt-2 text-xs text-center text-slate-500 dark:text-slate-400;
+  @apply mt-1.5 text-[0.65rem] sm:text-xs text-center text-slate-500 dark:text-slate-400;
 }
 
 .section-title {
-  @apply flex items-center gap-2 font-semibold text-sm;
+  @apply flex items-center gap-1.5 font-semibold text-xs sm:text-sm;
 }
 
 .section-title.dft {
@@ -369,66 +677,188 @@
   @apply text-rose-600 dark:text-rose-400;
 }
 
-.section-list {
-  @apply space-y-2 pl-4 mt-2;
-}
-
-.section-list li {
-  @apply text-slate-600 dark:text-slate-400;
-}
-
-.section-list li strong {
-  @apply text-slate-800 dark:text-slate-200;
-}
-
-.step-list {
-  @apply space-y-3 pl-4 mt-2;
-}
-
-.step-item {
-  @apply flex items-start gap-3;
-}
-
 .step-number {
-  @apply flex items-center justify-center w-6 h-6 rounded-full text-[0.7rem] font-bold bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 shrink-0;
+  @apply flex items-center justify-center w-5 h-5 rounded-full text-[0.6rem] font-bold bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 shrink-0;
 }
 
 .step-content {
-  @apply text-slate-600 dark:text-slate-400 pt-0.5;
+  @apply text-slate-600 dark:text-slate-400 pt-0.5 text-xs sm:text-sm;
 }
 
 .step-content strong {
   @apply text-slate-800 dark:text-slate-200;
 }
 
-.step-content .highlight {
-  @apply text-sky-500 dark:text-sky-400;
+/* ====== Mobile Optimizations ====== */
+@media (max-width: 480px) {
+  .container {
+    @apply px-2;
+  }
+  
+  .card-header {
+    @apply gap-2 pb-2;
+  }
+  
+  .header-icon {
+    @apply w-8 h-8 sm:w-10 sm:h-10;
+  }
+  
+  .header-title {
+    @apply text-sm sm:text-base;
+  }
+  
+  .header-subtitle {
+    @apply text-[0.7rem] sm:text-xs;
+  }
+  
+  .transform-indicator {
+    @apply p-2 gap-2;
+  }
+  
+  .indicator-label {
+    @apply text-[0.7rem];
+  }
+  
+  .indicator-input {
+    @apply w-12 px-1 py-1 text-xs;
+  }
+  
+  .input-tabs {
+    @apply text-xs;
+  }
+  
+  .tab-button {
+    @apply px-2 py-1 text-xs;
+  }
+  
+  .table-row-item {
+    @apply px-2 py-1.5 gap-1;
+  }
+  
+  .number-input {
+    @apply px-1 py-1 text-xs;
+  }
+  
+  .add-button {
+    @apply py-1.5 text-xs;
+  }
+  
+  .result-header {
+    @apply mb-2 gap-1;
+  }
+  
+  .result-title {
+    @apply text-xs sm:text-sm;
+  }
+  
+  .result-badge {
+    @apply px-2 py-0.5 text-[0.6rem];
+  }
+  
+  .chart-header {
+    @apply mb-2 gap-1;
+  }
+  
+  .chart-title {
+    @apply text-xs sm:text-sm;
+  }
+  
+  .legend-item {
+    @apply px-1.5 py-0.5;
+  }
+  
+  .legend-text {
+    @apply text-[0.6rem];
+  }
+  
+  .explanation-header {
+    @apply gap-2;
+  }
+  
+  .explanation-title {
+    @apply text-xs sm:text-sm;
+  }
+  
+  .explanation-content {
+    @apply text-[0.7rem] sm:text-xs;
+  }
+  
+  .formula-text {
+    @apply text-[0.7rem] sm:text-xs px-2 py-1.5;
+  }
+  
+  .section-list {
+    @apply pl-3 mt-1;
+  }
+  
+  .section-list li {
+    @apply text-[0.7rem] sm:text-xs;
+  }
+  
+  .step-list {
+    @apply pl-3 mt-1;
+  }
+  
+  .step-content {
+    @apply text-[0.7rem] sm:text-xs;
+  }
+  
+  .info-box {
+    @apply p-2;
+  }
+  
+  .info-box-title {
+    @apply text-[0.7rem];
+  }
+  
+  .info-box-text {
+    @apply text-[0.65rem];
+  }
 }
 
-.step-content .highlight-purple {
-  @apply text-purple-500 dark:text-purple-400;
+/* ====== Touch-friendly improvements ====== */
+@media (hover: none) and (pointer: coarse) {
+  .table-row-item {
+    @apply min-h-[48px];
+  }
+  
+  .number-input {
+    @apply min-h-[44px];
+  }
+  
+  button {
+    @apply min-h-[44px] min-w-[44px];
+  }
+  
+  .tab-button {
+    @apply min-h-[40px];
+  }
+  
+  .add-button {
+    @apply min-h-[48px];
+  }
+  
+  .remove-button {
+    @apply min-h-[40px] min-w-[40px];
+  }
+  
+  .chart-canvas {
+    @apply cursor-pointer;
+  }
 }
 
-.toggle-hide {
-  @apply flex items-center gap-1 text-xs font-medium transition-colors duration-150;
-}
-
-.toggle-hide.dft {
-  @apply text-sky-500 dark:text-sky-400;
-}
-
-.toggle-hide.idft {
-  @apply text-purple-500 dark:text-purple-400;
-}
-
-.toggle-hide.fft {
-  @apply text-amber-500 dark:text-amber-400;
-}
-
-.toggle-hide.twiddle {
-  @apply text-emerald-500 dark:text-emerald-400;
-}
-
-.toggle-hide.conv {
-  @apply text-rose-500 dark:text-rose-400;
+/* ====== Print styles ====== */
+@media print {
+  .dark {
+    @apply text-slate-900 bg-white;
+  }
+  
+  .chart-canvas {
+    @apply border border-slate-300;
+  }
+  
+  button,
+  .action-buttons {
+    @apply hidden;
+  }
 }
