@@ -9,16 +9,292 @@ export default function ExplanationPanel({ operation, activeIndex }) {
   const isFFT = operation === 'fft';
   const isTwiddle = operation === 'twiddle';
   const isCircularConv = operation === 'circularConv';
+  const isLinearConv = operation === 'linearConv';
+  const isOverlapSave = operation === 'overlapSave';
+  const isOverlapAdd = operation === 'overlapAdd';
 
   const getThemeClass = () => {
     if (isDFT || isFFT) return 'dft';
     if (isIDFT) return 'idft';
     if (isTwiddle) return 'twiddle';
-    if (isCircularConv) return 'conv';
+    if (isCircularConv || isLinearConv || isOverlapSave || isOverlapAdd) return 'conv';
     return 'dft';
   };
 
   const theme = getThemeClass();
+
+  // Linear Convolution explanation
+  if (isLinearConv) {
+    return (
+      <aside className="explanation-panel p-4 sm:p-5">
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          className="explanation-header w-full"
+        >
+          <div className="flex items-center gap-3">
+            <div className="explanation-header-icon conv">
+              <span className="text-xl">📐</span>
+            </div>
+            <div>
+              <h2 className="explanation-title">Linear Convolution</h2>
+              <p className="explanation-subtitle">Convolution of finite sequences</p>
+            </div>
+          </div>
+          <span className={`toggle-hide ${theme}`}>
+            {open ? 'Hide ▲' : 'Show ▼'}
+          </span>
+        </button>
+
+        {open && (
+          <div className="explanation-content">
+            <div className="formula-card conv">
+              <p className="formula-text">
+                y[n] = Σ<sub>k=0</sub><sup>L-1</sup> x[k] · h[n−k]
+              </p>
+              <p className="formula-subtitle">
+                Result length: N = L + M - 1
+              </p>
+            </div>
+
+            <div className="mt-4">
+              <p className={`section-title ${theme}`}>
+                <span className="h-1.5 w-1.5 rounded-full bg-indigo-500" />
+                Key Concepts
+              </p>
+              <ul className="section-list">
+                <li>
+                  <strong>Linear</strong> — No wrapping, output length is L+M-1
+                </li>
+                <li>
+                  <strong>Direct Computation</strong> — O(NM) complexity for two sequences
+                </li>
+                <li>
+                  <strong>No Zero Padding</strong> — Unlike circular convolution
+                </li>
+                <li>
+                  <strong>Applications</strong> — FIR filtering, system response
+                </li>
+              </ul>
+            </div>
+
+            <div className="mt-4 step-list">
+              <p className={`section-title ${theme}`}>
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                How to Calculate
+              </p>
+              <div className="step-item">
+                <span className="step-number">1</span>
+                <span className="step-content">
+                  Let L = length of x[n], M = length of h[n]
+                </span>
+              </div>
+              <div className="step-item">
+                <span className="step-number">2</span>
+                <span className="step-content">
+                  Output length N = L + M - 1
+                </span>
+              </div>
+              <div className="step-item">
+                <span className="step-number">3</span>
+                <span className="step-content">
+                  For each output n, sum <strong>x[k] × h[n-k]</strong>
+                </span>
+              </div>
+              <div className="step-item">
+                <span className="step-number">4</span>
+                <span className="step-content">
+                  Only include terms where indices are in valid range
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </aside>
+    );
+  }
+
+  // Overlap-Save explanation
+  if (isOverlapSave) {
+    return (
+      <aside className="explanation-panel p-4 sm:p-5">
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          className="explanation-header w-full"
+        >
+          <div className="flex items-center gap-3">
+            <div className="explanation-header-icon conv">
+              <span className="text-xl">✂️</span>
+            </div>
+            <div>
+              <h2 className="explanation-title">Overlap-Save Method</h2>
+              <p className="explanation-subtitle">Block convolution using FFT</p>
+            </div>
+          </div>
+          <span className={`toggle-hide ${theme}`}>
+            {open ? 'Hide ▲' : 'Show ▼'}
+          </span>
+        </button>
+
+        {open && (
+          <div className="explanation-content">
+            <div className="formula-card conv">
+              <p className="formula-text">
+                Block Size: N ≥ M
+              </p>
+              <p className="formula-subtitle">
+                M new samples per block (M = N - M + 1)
+              </p>
+            </div>
+
+            <div className="mt-4">
+              <p className={`section-title ${theme}`}>
+                <span className="h-1.5 w-1.5 rounded-full bg-orange-500" />
+                Key Concepts
+              </p>
+              <ul className="section-list">
+                <li>
+                  <strong>Input Blocking</strong> — Break input into overlapping blocks
+                </li>
+                <li>
+                  <strong>FFT Computation</strong> — Use FFT for each block
+                </li>
+                <li>
+                  <strong>Discard Aliasing</strong> — Save only valid output samples
+                </li>
+                <li>
+                  <strong>Efficiency</strong> — O(N log N) per block
+                </li>
+              </ul>
+            </div>
+
+            <div className="mt-4 step-list">
+              <p className={`section-title ${theme}`}>
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                Algorithm Steps
+              </p>
+              <div className="step-item">
+                <span className="step-number">1</span>
+                <span className="step-content">
+                  Pad impulse response h[n] with zeros to length N
+                </span>
+              </div>
+              <div className="step-item">
+                <span className="step-number">2</span>
+                <span className="step-content">
+                  Compute FFT of h[n] → H[k]
+                </span>
+              </div>
+              <div className="step-item">
+                <span className="step-number">3</span>
+                <span className="step-content">
+                  For each block: FFT → Multiply with H[k] → IFFT
+                </span>
+              </div>
+              <div className="step-item">
+                <span className="step-number">4</span>
+                <span className="step-content">
+                  Discard first M-1 samples (aliased), save rest
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </aside>
+    );
+  }
+
+  // Overlap-Add explanation
+  if (isOverlapAdd) {
+    return (
+      <aside className="explanation-panel p-4 sm:p-5">
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          className="explanation-header w-full"
+        >
+          <div className="flex items-center gap-3">
+            <div className="explanation-header-icon conv">
+              <span className="text-xl">➕</span>
+            </div>
+            <div>
+              <h2 className="explanation-title">Overlap-Add Method</h2>
+              <p className="explanation-subtitle">Block convolution using FFT</p>
+            </div>
+          </div>
+          <span className={`toggle-hide ${theme}`}>
+            {open ? 'Hide ▲' : 'Show ▼'}
+          </span>
+        </button>
+
+        {open && (
+          <div className="explanation-content">
+            <div className="formula-card conv">
+              <p className="formula-text">
+                Block Size: N ≥ M
+              </p>
+              <p className="formula-subtitle">
+                M new samples per block (M = N - M + 1)
+              </p>
+            </div>
+
+            <div className="mt-4">
+              <p className={`section-title ${theme}`}>
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan-500" />
+                Key Concepts
+              </p>
+              <ul className="section-list">
+                <li>
+                  <strong>Input Blocking</strong> — Break input into non-overlapping blocks
+                </li>
+                <li>
+                  <strong>Zero Padding</strong> — Pad each block to length N
+                </li>
+                <li>
+                  <strong>Add Overlaps</strong> — Overlap and add output segments
+                </li>
+                <li>
+                  <strong>Efficiency</strong> — O(N log N) per block
+                </li>
+              </ul>
+            </div>
+
+            <div className="mt-4 step-list">
+              <p className={`section-title ${theme}`}>
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                Algorithm Steps
+              </p>
+              <div className="step-item">
+                <span className="step-number">1</span>
+                <span className="step-content">
+                  Pad impulse response h[n] with zeros to length N
+                </span>
+              </div>
+              <div className="step-item">
+                <span className="step-number">2</span>
+                <span className="step-content">
+                  Compute FFT of h[n] → H[k]
+                </span>
+              </div>
+              <div className="step-item">
+                <span className="step-number">3</span>
+                <span className="step-content">
+                  For each block: Pad → FFT → Multiply with H[k] → IFFT
+                </span>
+              </div>
+              <div className="step-item">
+                <span className="step-number">4</span>
+                <span className="step-content">
+                  Add overlapping output segments together
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </aside>
+    );
+  }
 
   // Twiddle Factor explanation
   if (isTwiddle) {
